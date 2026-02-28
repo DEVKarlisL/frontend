@@ -4,10 +4,7 @@
 
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
-import {
-  getAccessToken,
-  clearLegacyLocalStorageTokens,
-} from "@/utils/authStorage";
+import { getAccessToken } from "@/utils/authStorage";
 
 export const useAuth = () => {
   const { user, isAuthenticated, isLoading, error, fetchCurrentUser } =
@@ -102,9 +99,9 @@ export const useWatchlist = () => {
     queryKey: ["watchlist"],
     queryFn: () => apiClient.getWatchlist(),
     staleTime: 0, // Data is always considered stale
-    refetchOnMount: "stale",
-    refetchOnWindowFocus: "stale",
-    refetchOnReconnect: "stale",
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
     gcTime: 0, // Don't cache in garbage collection - always refetch
   });
 };

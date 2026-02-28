@@ -1,5 +1,5 @@
 import React from "react";
-import { Toast, ToastType } from "./Toast";
+import { Toast } from "./Toast";
 import { useToastStore } from "@/store/toastStore";
 
 export const ToastContainer: React.FC = () => {

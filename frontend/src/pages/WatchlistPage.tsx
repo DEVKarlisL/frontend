@@ -10,18 +10,22 @@ import { useLanguageStore } from "@/store/languageStore";
 
 const WatchlistPage: React.FC = () => {
   const { data: watchlistData, isLoading, isError, error } = useWatchlist();
+  // Ensure watchlistData is always Watchlist[]
+  const watchlist: import("@/types").Watchlist[] = Array.isArray(watchlistData)
+    ? watchlistData
+    : [];
   const { t } = useLanguageStore();
 
   useEffect(() => {
     console.log("[WatchlistPage] Data updated:", {
-      count: watchlistData?.length,
+      count: watchlist.length,
       loading: isLoading,
       error: isError ? error : null,
-      data: watchlistData,
+      data: watchlist,
     });
-  }, [watchlistData, isLoading, isError, error]);
+  }, [watchlist, isLoading, isError, error]);
 
-  const watchlist = watchlistData || [];
+  // ...existing code...
 
   return (
     <div className="container-fluid py-12">
@@ -31,7 +35,7 @@ const WatchlistPage: React.FC = () => {
         <p>{t("loading")}</p>
       ) : watchlist.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {watchlist.map((item) => (
+          {watchlist.map((item: import("@/types").Watchlist) => (
             <Link
               key={item.id}
               to={`/auctions/${item.auction.id}`}

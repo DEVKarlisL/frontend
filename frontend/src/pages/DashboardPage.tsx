@@ -11,7 +11,6 @@ import { useAuthStore } from "@/store/authStore";
 import {
   LayoutDashboard,
   Gavel,
-  Star,
   ShoppingBag,
   Settings,
   User,
@@ -19,11 +18,9 @@ import {
   Bell,
   TrendingUp,
   Package,
-  CreditCard,
   Heart,
   Award,
   Activity,
-  FileText,
   HelpCircle,
 } from "lucide-react";
 

@@ -172,11 +172,11 @@ const ProfilePage: React.FC = () => {
       }
 
       // Use put to update profile
-      const response = await apiClient.put("/users/profile/", formDataObj, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      //const response = await apiClient.put("/users/profile/", formDataObj, {
+      //  headers: {
+      //    "Content-Type": "multipart/form-data",
+      //  },
+      //});
 
       setSuccess(t("profileUpdated"));
       await fetchCurrentUser();

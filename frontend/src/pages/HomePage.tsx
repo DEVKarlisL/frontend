@@ -172,8 +172,12 @@ interface Category {
     background_image?: string;
     background_color?: string;
     card_size?: "small" | "medium" | "large";
+    text_color?: string;
+    timer_color?: string;
+    icon_image?: string;
   };
   auction_count?: number;
+  closest_auction?: Auction | null;
 }
 
 const resolveAuctionStatus = (auction: any, now: number) => {
@@ -212,7 +216,7 @@ const extractResponseData = (response: any) => {
 };
 const HomePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [auctions, setAuctions] = useState<Auction[]>([]);
+  // const [auctions, setAuctions] = useState<Auction[]>([]);
   const [liveAuctions, setLiveAuctions] = useState<Auction[]>([]);
   const [endedAuctions, setEndedAuctions] = useState<Auction[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -245,8 +249,8 @@ const HomePage: React.FC = () => {
       let closestAuction = null;
       if (categoryAuctions.length > 0) {
         closestAuction = categoryAuctions.reduce((closest, current) => {
-          const closestTime = new Date(closest.end_time).getTime();
-          const currentTime = new Date(current.end_time).getTime();
+          const closestTime = new Date(closest.end_time ?? 0).getTime();
+          const currentTime = new Date(current.end_time ?? 0).getTime();
           return currentTime < closestTime ? current : closest;
         });
       }
@@ -289,10 +293,10 @@ const HomePage: React.FC = () => {
         : [];
       // Sort live auctions by closest ending first
       const sortedLive = mappedAuctions
-        .filter((auction) => auction.status === "live")
+        .filter((auction: Auction) => auction.status === "live")
         .sort(
-          (a, b) =>
-            new Date(a.end_time).getTime() - new Date(b.end_time).getTime(),
+          (a: Auction, b: Auction) =>
+            new Date(a.end_time ?? 0).getTime() - new Date(b.end_time ?? 0).getTime(),
         );
       setLiveAuctions(sortedLive);
     } catch (error) {
@@ -314,10 +318,10 @@ const HomePage: React.FC = () => {
           }))
         : [];
       const sortedLive = mappedAuctions
-        .filter((auction) => auction.status === "live")
+        .filter((auction: Auction) => auction.status === "live")
         .sort(
-          (a, b) =>
-            new Date(a.end_time).getTime() - new Date(b.end_time).getTime(),
+          (a: Auction, b: Auction) =>
+            new Date(a.end_time ?? 0).getTime() - new Date(b.end_time ?? 0).getTime(),
         );
       setLiveAuctions(sortedLive);
     } catch (error) {
@@ -338,7 +342,7 @@ const HomePage: React.FC = () => {
       const now = Date.now();
       const isAuctionActive = (auction: any) => {
         if (!auction?.end_time) return false;
-        const endTime = new Date(auction.end_time).getTime();
+        const endTime = new Date(auction.end_time ?? "").getTime();
         const hasEnded = Number.isFinite(endTime) && endTime <= now;
         return auction.status === "active" && !hasEnded;
       };
@@ -398,14 +402,14 @@ const HomePage: React.FC = () => {
 
       // Sort ended auctions by latest ended first
       const ended = mappedAuctions
-        .filter((auction) => auction.status === "ended")
+        .filter((auction: Auction) => auction.status === "ended")
         .sort(
-          (a, b) =>
-            new Date(b.end_time).getTime() - new Date(a.end_time).getTime(),
+          (a: Auction, b: Auction) =>
+            new Date(b.end_time ?? 0).getTime() - new Date(a.end_time ?? 0).getTime(),
         );
       setEndedAuctions(ended);
       // Keep auctions for other uses if needed
-      setAuctions(mappedAuctions);
+      // setAuctions(mappedAuctions);
     } catch (error) {
       console.error("Failed to fetch auctions:", error);
     } finally {
@@ -423,46 +427,45 @@ const HomePage: React.FC = () => {
 
       if (!auctionData || auctionData.length === 0) return;
 
-      // Create index map of new auction data by ID
-      const newAuctionMap = new Map(auctionData.map((a: any) => [a.id, a]));
+      
 
       // Update only auctions that have changed fields
-      setAuctions((prevAuctions) => {
-        let hasChanges = false;
-
-        const updatedAuctions = prevAuctions.map((prevAuction) => {
-          const newAuctionData = newAuctionMap.get(prevAuction.id);
-
-          if (!newAuctionData) return prevAuction;
-
-          // Check if any relevant field changed
-          const newStatus: "ended" | "live" | "soon" = resolveAuctionStatus(
-            newAuctionData,
-            Date.now(),
-          );
-
-          // Only create new object if something actually changed
-          if (
-            prevAuction.current_bid !== newAuctionData.current_bid ||
-            prevAuction.title !== newAuctionData.title ||
-            prevAuction.end_time !== newAuctionData.end_time ||
-            prevAuction.status !== newStatus
-          ) {
-            hasChanges = true;
-            return {
-              ...prevAuction,
-              ...newAuctionData,
-              status: newStatus,
-            } as Auction;
-          }
-
-          // No changes, return same reference
-          return prevAuction;
-        });
-
-        // Only trigger re-render if something actually changed
-        return hasChanges ? updatedAuctions : prevAuctions;
-      });
+      // setAuctions((prevAuctions: Auction[]) => {
+      //   let hasChanges = false;
+      //
+      //   const updatedAuctions = prevAuctions.map((prevAuction: Auction) => {
+      //     const newAuctionData = newAuctionMap.get(prevAuction.id) as Auction | undefined;
+      //
+      //     if (!newAuctionData) return prevAuction;
+      //
+      //     // Check if any relevant field changed
+      //     const newStatus: "ended" | "live" | "soon" = resolveAuctionStatus(
+      //       newAuctionData,
+      //       Date.now(),
+      //     );
+      //
+      //     // Only create new object if something actually changed
+      //     if (
+      //       prevAuction.current_bid !== newAuctionData.current_bid ||
+      //       prevAuction.title !== newAuctionData.title ||
+      //       prevAuction.end_time !== newAuctionData.end_time ||
+      //       prevAuction.status !== newStatus
+      //     ) {
+      //       hasChanges = true;
+      //       return {
+      //         ...prevAuction,
+      //         ...newAuctionData,
+      //         status: newStatus,
+      //       } as Auction;
+      //     }
+      //
+      //     // No changes, return same reference
+      //     return prevAuction;
+      //   });
+      //
+      //   // Only trigger re-render if something actually changed
+      //   return hasChanges ? updatedAuctions : prevAuctions;
+      // });
     } catch (error) {
       // Silently fail on background refresh
       console.log("Background auction refresh skipped");
@@ -528,7 +531,7 @@ const HomePage: React.FC = () => {
     setBiddingAuction(auctionId);
 
     try {
-      const response = await apiClient.post("/bidding/bids/", {
+      await apiClient.post("/bidding/bids/", {
         auction_id: auctionId,
         amount: minimumBid,
       });
@@ -536,26 +539,26 @@ const HomePage: React.FC = () => {
       toast.success(`Solījums veiksmīgs! ${formatPrice(minimumBid)}`);
 
       // Update only the specific auction in the state with actual data from backend
-      setAuctions((prevAuctions) =>
-        prevAuctions.map((a) =>
-          a.id === auctionId
-            ? {
-                ...a,
-                current_highest_bid: minimumBid,
-                currentBid: minimumBid,
-                current_bid: minimumBid,
-                numberOfBids:
-                  response.data.auction?.bid_count || (a.numberOfBids || 0) + 1,
-                last_bidder: user
-                  ? {
-                      username: user.username,
-                      avatar: getMediaUrl(user.avatar),
-                    }
-                  : a.last_bidder,
-              }
-            : a,
-        ),
-      );
+      // setAuctions((prevAuctions) =>
+      //   prevAuctions.map((a) =>
+      //     a.id === auctionId
+      //       ? {
+      //           ...a,
+      //           current_highest_bid: minimumBid,
+      //           currentBid: minimumBid,
+      //           current_bid: minimumBid,
+      //           numberOfBids:
+      //             response.data.auction?.bid_count || (a.numberOfBids || 0) + 1,
+      //           last_bidder: user
+      //             ? {
+      //                 username: user.username,
+      //                 avatar: getMediaUrl(user.avatar),
+      //               }
+      //             : a.last_bidder,
+      //         }
+      //       : a,
+      //   ),
+      // );
     } catch (error: any) {
       console.error("Bid error:", error.response?.data);
       const errorMessage =
@@ -672,13 +675,9 @@ const HomePage: React.FC = () => {
 
                   const hasBackgroundImage =
                     !!category.widget_settings?.background_image;
-                  const backgroundColor =
-                    category.widget_settings?.background_color || "#1e40af";
-                  const textColor =
-                    category.widget_settings?.text_color || "#ffffff";
-                  const timerColor =
-                    category.widget_settings?.timer_color || "#fbbf24";
                   const iconImage = category.widget_settings?.icon_image;
+                  // const timerColor =
+                  //   category.widget_settings?.timer_color || "#fbbf24";
                   const closestAuction = category.closest_auction;
 
                   return (
@@ -690,7 +689,7 @@ const HomePage: React.FC = () => {
                       {hasBackgroundImage ? (
                         <>
                           <img
-                            src={category.widget_settings.background_image}
+                            src={category.widget_settings?.background_image}
                             alt={category.name}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
@@ -721,7 +720,7 @@ const HomePage: React.FC = () => {
                             {closestAuction && (
                               <div className="text-xs text-white ml-auto">
                                 <CountdownTimer
-                                  endTime={closestAuction.end_time}
+                                  endTime={closestAuction.end_time ?? ""}
                                   color="#fbbf24"
                                 />
                               </div>
@@ -757,7 +756,7 @@ const HomePage: React.FC = () => {
                             {closestAuction && (
                               <div className="text-xs text-slate-900 ml-auto">
                                 <CountdownTimer
-                                  endTime={closestAuction.end_time}
+                                  endTime={closestAuction.end_time ?? ""}
                                   color="#fbbf24"
                                 />
                               </div>
@@ -859,7 +858,7 @@ const HomePage: React.FC = () => {
                   <div className="absolute top-2 left-2">
                     {(() => {
                       const now = new Date().getTime();
-                      const endTime = new Date(auction.end_time).getTime();
+                      const endTime = new Date(auction.end_time ?? "").getTime();
                       const hoursRemaining = (endTime - now) / (1000 * 60 * 60);
 
                       if (auction.status === "live" && hoursRemaining < 24) {
@@ -993,10 +992,12 @@ const HomePage: React.FC = () => {
                         handleBidClick(e, auction.id, auction.status)
                       }
                       disabled={
-                        biddingAuction === auction.id ||
-                        (auction.last_bidder &&
-                          user &&
-                          auction.last_bidder.username === user.username)
+                        !!(
+                          biddingAuction === auction.id ||
+                          (auction.last_bidder &&
+                            user &&
+                            auction.last_bidder.username === user.username)
+                        )
                       }
                       className={`flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-md transition-all ${
                         auction.status === "soon"
