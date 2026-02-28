@@ -16,7 +16,7 @@ daphne==4.0.0
 
 # Authentication & Security
 djangorestframework-simplejwt==5.2.2
-PyJWT==2.8.1
+PyJWT==2.8.0
 python-decouple==3.8
 django-allauth==0.57.0
 dj-rest-auth==5.0.2
