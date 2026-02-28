@@ -1,0 +1,37 @@
+Auction Platform: Technology Stack & Course Knowledge Application
+
+Slide 1: Title
+- Auction Platform: Technology Stack & Course Knowledge Application
+- Name: [Your Name]
+- Date: February 28, 2026
+
+Slide 2: Technologies Used
+- Frontend: React, TypeScript, Vite, Tailwind CSS
+- Backend: Django, Python, Django REST Framework
+- Database: SQLite (development)
+- Other: Docker, Nginx, Axios, Zustand, React Query
+
+Slide 3: Applying Course Knowledge
+- Building REST APIs with Django
+- Creating interactive UIs with React and TypeScript
+- State management with Zustand and React Query
+- Styling with Tailwind CSS
+
+Slide 4: Example 1 – API Integration
+- Fetch auction data from Django backend using Axios in React
+- Example code snippet:
+  axios.get('/api/auctions/')
+    .then(response => setAuctions(response.data));
+
+Slide 5: Example 2 – Authentication
+- User login flow using Django backend and React frontend
+- Protected routes in React:
+  <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+Slide 6: Example 3 – Docker & Deployment
+- Using Docker and Nginx for deployment
+- Benefits: scalability, easy setup
+
+Slide 7: Conclusion
+- Technologies and skills prepare for real-world web development
+- Future plans: improve platform, add new features

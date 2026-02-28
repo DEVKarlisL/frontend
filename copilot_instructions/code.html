@@ -1,0 +1,556 @@
+<html lang="lv"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Latvijas Izsole - Online Auctions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#C8102E", // Latvian Red
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0D0D0D", // Deep dark grey/near-black
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "4px",
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 105px);
+            gap: 8px;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+        .textured-bg {
+            background-color: #0d0d0d;
+            background-image: 
+                linear-gradient(to bottom, #262626 0%, #0d0d0d 100%),
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 10px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 10px);
+            background-blend-mode: multiply;
+        }
+        .category-card-light {
+            @apply bg-white hover:bg-slate-50 transition-colors rounded-lg p-3 flex flex-col justify-between border border-white shadow-sm;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 min-h-screen">
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-4">
+<div class="flex justify-end space-x-6 py-2 text-xs text-slate-500 border-b border-slate-100">
+<a class="hover:text-primary transition-colors" href="#">Par mums</a>
+<a class="hover:text-primary transition-colors" href="#">Izsoļu kalendārs</a>
+<a class="hover:text-primary transition-colors" href="#">Pārdodiet kopā ar mums</a>
+<a class="hover:text-primary transition-colors" href="#">Palīdzība</a>
+<a class="hover:text-primary transition-colors font-semibold" href="#">LV</a>
+</div>
+<div class="flex items-center justify-between py-4">
+<div class="flex items-center space-x-12">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-white text-2xl">account_balance</span>
+</div>
+<div class="leading-none">
+<span class="block font-bold text-xl tracking-tighter uppercase">Latvijas</span>
+<span class="block font-light text-sm tracking-widest uppercase">Izsole</span>
+</div>
+</div>
+<nav class="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-700">
+<a class="hover:text-primary flex items-center gap-1" href="#">Motori <span class="material-symbols-outlined text-xs">expand_more</span></a>
+<a class="hover:text-primary flex items-center gap-1" href="#">Prestižie numuri <span class="material-symbols-outlined text-xs">expand_more</span></a>
+<a class="hover:text-primary flex items-center gap-1" href="#">Īpašumi <span class="material-symbols-outlined text-xs">expand_more</span></a>
+<a class="hover:text-primary flex items-center gap-1" href="#">Pārpalikums <span class="material-symbols-outlined text-xs">expand_more</span></a>
+<a class="hover:text-primary flex items-center gap-1" href="#">Īre <span class="material-symbols-outlined text-xs">expand_more</span></a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 text-slate-600">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="px-5 py-2 text-sm font-medium border border-slate-300 rounded-md hover:bg-slate-50 transition-all">
+                    Izveidot kontu
+                </button>
+<button class="px-6 py-2 text-sm font-medium bg-primary text-white rounded-md hover:bg-red-700 transition-all shadow-lg shadow-red-900/20">
+                    Pieteikšanās
+                </button>
+</div>
+</div>
+</div>
+</header>
+<div class="textured-bg border-b-2 border-primary/20">
+<main class="max-w-[1440px] mx-auto p-4 lg:p-6 pb-20">
+<div class="grid-layout">
+<aside class="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#B91C1C] to-[#7F1D1D] text-white p-6 flex flex-col justify-between h-full shadow-2xl">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-3xl">emergency_share</span>
+<div>
+<p class="text-[10px] uppercase tracking-widest opacity-80">Latvijas</p>
+<p class="text-base font-bold leading-none tracking-tight">Palīdzība</p>
+</div>
+</div>
+<h1 class="text-2xl font-extrabold leading-tight mb-3 uppercase tracking-tighter">Jaunās paaudzes palīdzība uz ceļiem</h1>
+<p class="text-[11px] opacity-90 font-light mb-6">Ātra reakcija un 24/7 pieejamība visā Latvijā.</p>
+</div>
+<div class="relative h-[230px] mb-4">
+<img alt="Mobile app screenshot showing car assistance" class="absolute -bottom-4 left-0 w-full rounded-2xl shadow-2xl rotate-[-5deg] border-4 border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtkcwczecysQ-kNIyaw7SOnh0qILkFyt5S1REzVjJMctTcSOJ_2Zvp0-jdaXZrbCF8Z_yWq5BrwhNMEwScVShOeRVkJVS1OM24p4SxASCrWo5vppEFPNJJfNBIt_x_djPdem7KorScvmCOQ6VPaxustJG_A-AJ8gqhPSneZHTgZ__BCifh7QtaHyiDRaUSoEjRIOgmTs2xNQTG2h5ZVPNzTjCs9mqkm-i4-pB5EhBMaeu7l7ftTrIKhTH-KK-lcqeWXzkyf9JpHVM"/>
+</div>
+<div class="flex gap-2">
+<div class="bg-black/20 p-2 rounded flex-1 text-center">
+<p class="text-[9px] opacity-70">Lejupielādēt</p>
+<p class="text-[10px] font-bold">App Store</p>
+</div>
+<div class="bg-black/20 p-2 rounded flex-1 text-center">
+<p class="text-[9px] opacity-70">Lejupielādēt</p>
+<p class="text-[10px] font-bold">Google Play</p>
+</div>
+</div>
+</aside>
+<div class="main-grid">
+<div class="category-card-light">
+<div class="flex flex-col">
+<div class="bg-slate-100 rounded px-1 mb-1 border border-slate-200 flex items-center justify-center h-8">
+<span class="text-xs font-mono tracking-widest font-bold text-slate-800">LV 0001</span>
+</div>
+<h3 class="font-bold text-[11px] leading-none text-slate-800">Prestižie numuri</h3>
+</div>
+<div class="flex items-center justify-between mt-1">
+<p class="text-[9px] text-primary font-bold uppercase">45 Izsoles</p>
+<span class="material-symbols-outlined text-[14px] text-slate-400">arrow_right_alt</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex flex-col">
+<div class="bg-slate-100 rounded px-1 mb-1 border border-slate-200 flex items-center justify-center h-8">
+<span class="text-xs font-mono font-bold text-slate-800">AA 1234</span>
+</div>
+<h3 class="font-bold text-[11px] leading-none text-slate-800">Reģionālās plāksnes</h3>
+</div>
+<div class="flex items-center justify-between mt-1">
+<p class="text-[9px] text-emerald-600 font-bold uppercase">Pirkt tūlīt</p>
+<span class="material-symbols-outlined text-[14px] text-emerald-600">shopping_cart</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex flex-col">
+<div class="bg-slate-100 rounded px-1 mb-1 border border-slate-200 flex items-center justify-center h-8">
+<span class="text-xs font-mono font-bold text-slate-800 italic">BOSS</span>
+</div>
+<h3 class="font-bold text-[11px] leading-none text-slate-800">Individuālās plāksnes</h3>
+</div>
+<div class="flex items-center justify-between mt-1">
+<p class="text-[9px] text-primary font-bold uppercase">12 Izsoles</p>
+<span class="material-symbols-outlined text-[14px] text-slate-400">arrow_right_alt</span>
+</div>
+</div>
+<div class="col-span-1 row-span-2 relative rounded-lg overflow-hidden group cursor-pointer border border-white/10 shadow-md">
+<img alt="Modern skyscrapers" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3oORs7jr6cVZkee8LqjdZlLRYf942RSojtjwFGgNDiaFDPEl854vYWabD-Tt-lfkCawmEjA262u9lkCYXp1ZIIMmtTimDwUofnIVGlFghji3OMAMRrrE9v5u0wCvFt1ei3KDGRHQ-vmVcLxiwHsiYwG46D3hQEJDjI2azYDz5YwH1q3C_O6JqL-wlaCYlFbjyCYqnTybuwu_cw37YtphmiO0TLuUHyh9nTLJeji-LCAhBe830gw3pVIUpGV9TANDU5nzJpz5TY24"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-3 w-full">
+<p class="text-white text-[11px] font-bold leading-tight">Īpašuma izsole</p>
+<p class="text-[8px] text-white/90 mt-1 bg-primary px-1.5 py-0.5 rounded inline-block">61 Aktīvs</p>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex flex-col">
+<div class="bg-blue-50 rounded px-1 mb-1 border border-blue-100 flex items-center justify-center h-8 text-blue-800">
+<span class="text-xs font-mono tracking-widest font-bold">B 777</span>
+</div>
+<h3 class="font-bold text-[11px] leading-none text-slate-800">E-Auto numuri</h3>
+</div>
+<div class="mt-1 flex items-center gap-1 text-[8px] text-slate-500 font-medium uppercase">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 5d: 8h
+                    </div>
+</div>
+<div class="col-span-2 relative rounded-lg overflow-hidden group cursor-pointer border border-white/10 shadow-md">
+<img alt="Luxury car side view" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI9MV60ls4x5rgAXEl-yVtdRjVzGD_EieDksS6KeTM0XISuzUhF1fuKL3Qli-3cbMC9OqrZnBPmuJvxq2MBjPyeOv8cyXisXyBWmTDsO0KTDnJ15Hyq44zMr2KBKMR67ePnG4waUs-XiKkPzRAzRldC6gvaMlXVmUF0X4GdDvWz2vmrhqsdnZRQozGHeKD8e3W-nV_wFp4qxkpk6xyncIpXWvdk6ow1nxkWg7JLY93f9PAKZIlutey-WVsscFW7yf2SJ2R1i2a1s4"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+<div class="absolute inset-y-0 left-0 flex flex-col justify-center p-4">
+<h3 class="text-white font-bold text-[13px]">Automašīnu izsole</h3>
+<p class="text-[9px] text-white/90 mt-1 bg-primary self-start px-2 py-0.5 rounded">912 Transportlīdzekļi</p>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0 border border-blue-200">
+<span class="material-symbols-outlined text-blue-600 text-lg">policy</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Policijas izsoles</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-blue-600 font-bold uppercase">153 Vienības</p>
+<span class="material-symbols-outlined text-[12px] text-slate-400">schedule</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center shrink-0 border border-orange-200">
+<span class="material-symbols-outlined text-orange-600 text-lg">agriculture</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Lauksaimniecība</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-orange-600 font-bold uppercase">34 Izsoles</p>
+<span class="material-symbols-outlined text-[12px] text-slate-400">schedule</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center shrink-0 border border-emerald-200">
+<span class="material-symbols-outlined text-emerald-600 text-lg">landscape</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Meži un zeme</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-emerald-600 font-bold uppercase">18 Objekti</p>
+<span class="material-symbols-outlined text-[14px] text-slate-400">list_alt</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center shrink-0 border border-amber-200">
+<span class="material-symbols-outlined text-amber-600 text-lg">brush</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Antikvariāts</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-amber-600 font-bold uppercase">42 Izsoles</p>
+<span class="material-symbols-outlined text-[12px] text-slate-400">schedule</span>
+</div>
+</div>
+<div class="col-span-2 bg-slate-100 rounded-lg p-3 relative overflow-hidden flex flex-col justify-between border border-slate-200 shadow-sm">
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<h3 class="text-slate-800 font-bold text-[12px] leading-tight">Latvijas Debesis lojalitāte</h3>
+<p class="text-slate-500 text-[8px] font-medium uppercase">AirBaltic partnerība</p>
+</div>
+<img alt="Card partner logo" class="h-4 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlUWnNsAzWsvrBuLYbelhyNA82nhOzuC9j6ZDa1CSprnc-0ytbSugGxQZkkTdgKMSOQzcuSwhbaVKWZaiEpFc6aIr8QeKLCW4M_MyXvfvHVRUI0za7OqzZXgdSzSjoB2Q1xvXHNtA70PdA3jDynB8_BH_5KRhNDGK9F4M82rUtQSU8aisbUJLvYO4yTj5obPbFEhta3JI-dmsAavwK9mfxvzf8W_mVutmzDvaD0rNmzaUIWrR8ntHrLbJO9dOTE-6pCuuySLp6lzw"/>
+</div>
+<div class="mt-1 relative z-10">
+<button class="text-[9px] font-bold text-slate-700 border-b border-primary pb-0.5">Mana biedra karte</button>
+</div>
+<div class="absolute -right-4 -bottom-4 w-16 h-16 bg-primary/5 blur-xl rounded-full"></div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-slate-200">
+<img alt="Watch icon" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1kOPTUqklIIkPA0-tx7X4072SOsteUAYAiDAwEogdNloWXrbFpajxWo2MFQVCo6czgPjdA39ZAzE6aYXnNF12bDZbTorY3znpzTyYz74SULhfAqu4LsaBrpr1kyocmbob8zGZOGuSvRdjNoKRV8_goDVuPD4XkYxcwQSheYi0GbiR5j4w4u-meamRw96QJine95P5bFsk4ZzCayQi2xds4na9dFXB_0lzm_1bHWeUotXv4u89cBkP5UCN34D5xbNRdz7ydcs0Y2A"/>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Pulksteņi</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-primary font-bold uppercase">131 Aktīvs</p>
+<span class="material-symbols-outlined text-[12px] text-slate-400">schedule</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden group cursor-pointer border border-white/10 shadow-sm">
+<img alt="Office space" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPgfF1pkqfrorWSA096S0bgVpbdtkK1wu327s6c5DSgYDDoRyZNU_YnKLhPo1W0sIVGdyWUrxslepx7FnbAC2QCptjHZuMoFhMkySYX8K8l-T3nfqR8-U0vrO_4QSMguT_AT2ss_gm4o1t2EHDZuGVXkQVTgBPpR5fMyyWg7y-j1g0DkpihF64Qs84yn8aXpzgDDIfm9so652aj8v_-Scf1W6ENkvj3mNjiNEZNtwBuTI_plkdROH2dLizCfCXEoWtrxJ8R_dlTmc"/>
+<div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
+<div class="absolute inset-0 p-3 flex flex-col justify-end">
+<p class="text-white font-bold text-[11px]">Telpu īre</p>
+<p class="text-[8px] text-white/80 bg-primary/90 inline-block self-start px-1 py-0.5 rounded">62 Objekti</p>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center shrink-0 border border-slate-200 text-slate-500">
+<span class="material-symbols-outlined text-lg">package_2</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Vispārīgi vienumi</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-slate-500 font-bold uppercase">20 Izsoles</p>
+<span class="material-symbols-outlined text-[12px] text-slate-400">schedule</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden group cursor-pointer border border-white/10 shadow-sm">
+<img alt="Industrial ship" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfjFPBMjXXBCva5ckY7SjrkX1sHngpCbDfPCrdFQtrUVwSMY_7DdAU_IqnE-gSe0TErJf46Zn3kd-g1deF7JcNMhQp7qIvKpmTNshVbuoHemFTN54EaodYgVCNcOkjZbYUmr3QToR9S_iR_FY570UCWwlpkQhrHI9WJaGIq9JEacZcjCv1pU4BdhMD9Xbh4pqarziuu9l2qXQS7gR7iX-uDSoQ7-nmmh3M94sERtIUKFh-wHrVXYykkAbAUMGY6RMrVVp2hjUKhU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 p-3">
+<p class="text-white font-bold text-[11px]">Kuģi un baržas</p>
+<p class="text-[8px] text-white/90 bg-primary px-1 py-0.5 rounded inline-block">Aktīvas: 4</p>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center shrink-0 border border-purple-200">
+<span class="material-symbols-outlined text-purple-600 text-lg">devices</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Elektronika</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-purple-600 font-bold uppercase">85 Vienības</p>
+<span class="material-symbols-outlined text-[12px] text-purple-600">bolt</span>
+</div>
+</div>
+<div class="category-card-light">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center shrink-0 border border-cyan-200">
+<span class="material-symbols-outlined text-cyan-600 text-lg">chair</span>
+</div>
+<h3 class="font-bold text-[11px] leading-tight text-slate-800">Interjera priekšmeti</h3>
+</div>
+<div class="mt-1 flex items-center justify-between">
+<p class="text-[9px] text-cyan-600 font-bold uppercase">112 Izsoles</p>
+<span class="material-symbols-outlined text-[12px] text-cyan-600">weekend</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 bg-white/5 backdrop-blur-md rounded-xl p-6 border border-white/10 flex flex-wrap items-center justify-between gap-8 shadow-2xl">
+<div class="flex items-center gap-4">
+<span class="text-4xl font-black text-primary">10</span>
+<span class="text-sm font-bold uppercase leading-tight text-white">Pasaules<br/>rekordi</span>
+</div>
+<div class="h-10 w-px bg-white/10 hidden md:block"></div>
+<div class="flex-1 max-w-lg">
+<p class="text-xs text-slate-300 leading-relaxed italic">
+                    "Latvijas Izsole ir vadošais tiešsaistes izsoļu nams valstī, nodrošinot caurspīdīgu un drošu vidi visaugstākās kvalitātes aktīvu iegādei."
+                </p>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back_ios</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+<main class="max-w-[1440px] mx-auto p-4 lg:p-6 relative z-20">
+<section class="mt-8">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 uppercase">Aktuālās izsoles</h2>
+<a class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline" href="#">
+                Skatīt visas izsoles <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white rounded-xl overflow-hidden card-shadow border border-slate-100 group">
+<div class="relative h-48 overflow-hidden">
+<img alt="BMW 5 Series" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI9MV60ls4x5rgAXEl-yVtdRjVzGD_EieDksS6KeTM0XISuzUhF1fuKL3Qli-3cbMC9OqrZnBPmuJvxq2MBjPyeOv8cyXisXyBWmTDsO0KTDnJ15Hyq44zMr2KBKMR67ePnG4waUs-XiKkPzRAzRldC6gvaMlXVmUF0X4GdDvWz2vmrhqsdnZRQozGHeKD8e3W-nV_wFp4qxkpk6xyncIpXWvdk6ow1nxkWg7JLY93f9PAKZIlutey-WVsscFW7yf2SJ2R1i2a1s4"/>
+<div class="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> TIEŠRAIDE
+                    </div>
+<div class="absolute bottom-3 right-3 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg">
+                        Lidosta Rīga
+                    </div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-sm mb-1 truncate">BMW 530d xDrive M-Sport (2022)</h3>
+<p class="text-[10px] text-slate-500 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">sell</span> ID: 48921
+                    </p>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Pašreizējā cena</p>
+<p class="text-lg font-black text-primary">€ 42,500</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Atlicis</p>
+<p class="text-sm font-bold flex items-center justify-end gap-1 text-slate-800">
+<span class="material-symbols-outlined text-sm text-primary">timer</span> 04:12:45
+                            </p>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-t border-slate-100">
+<div class="flex items-center gap-1 text-[10px] font-medium text-slate-600">
+<span class="material-symbols-outlined text-sm">groups</span> 18 solītāji
+                        </div>
+<button class="bg-primary hover:bg-red-700 text-white text-xs font-bold px-6 py-2 rounded transition-colors shadow-lg shadow-red-900/10">
+                            Solīt
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl overflow-hidden card-shadow border border-slate-100 group">
+<div class="relative h-48 overflow-hidden">
+<img alt="Luxury Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3oORs7jr6cVZkee8LqjdZlLRYf942RSojtjwFGgNDiaFDPEl854vYWabD-Tt-lfkCawmEjA262u9lkCYXp1ZIIMmtTimDwUofnIVGlFghji3OMAMRrrE9v5u0wCvFt1ei3KDGRHQ-vmVcLxiwHsiYwG46D3hQEJDjI2azYDz5YwH1q3C_O6JqL-wlaCYlFbjyCYqnTybuwu_cw37YtphmiO0TLuUHyh9nTLJeji-LCAhBe830gw3pVIUpGV9TANDU5nzJpz5TY24"/>
+<div class="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> TIEŠRAIDE
+                    </div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-sm mb-1 truncate">Luksusa apartamenti Klīversalā</h3>
+<p class="text-[10px] text-slate-500 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Rīga, Pārdaugava
+                    </p>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Pašreizējā cena</p>
+<p class="text-lg font-black text-primary">€ 285,000</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Atlicis</p>
+<p class="text-sm font-bold flex items-center justify-end gap-1 text-slate-800">
+<span class="material-symbols-outlined text-sm text-primary">timer</span> 2d 14h
+                            </p>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-t border-slate-100">
+<div class="flex items-center gap-1 text-[10px] font-medium text-slate-600">
+<span class="material-symbols-outlined text-sm">groups</span> 7 solītāji
+                        </div>
+<button class="bg-primary hover:bg-red-700 text-white text-xs font-bold px-6 py-2 rounded transition-colors shadow-lg shadow-red-900/10">
+                            Solīt
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl overflow-hidden card-shadow border border-slate-100 group">
+<div class="relative h-48 overflow-hidden">
+<img alt="Rolex Watch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1kOPTUqklIIkPA0-tx7X4072SOsteUAYAiDAwEogdNloWXrbFpajxWo2MFQVCo6czgPjdA39ZAzE6aYXnNF12bDZbTorY3znpzTyYz74SULhfAqu4LsaBrpr1kyocmbob8zGZOGuSvRdjNoKRV8_goDVuPD4XkYxcwQSheYi0GbiR5j4w4u-meamRw96QJine95P5bFsk4ZzCayQi2xds4na9dFXB_0lzm_1bHWeUotXv4u89cBkP5UCN34D5xbNRdz7ydcs0Y2A"/>
+<div class="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> TIEŠRAIDE
+                    </div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-sm mb-1 truncate">Rolex Submariner Date 41mm</h3>
+<p class="text-[10px] text-slate-500 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">verified</span> Oriģinālais komplekts
+                    </p>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Pašreizējā cena</p>
+<p class="text-lg font-black text-primary">€ 14,200</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Atlicis</p>
+<p class="text-sm font-bold flex items-center justify-end gap-1 text-slate-800">
+<span class="material-symbols-outlined text-sm text-primary">timer</span> 01:22:10
+                            </p>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-t border-slate-100">
+<div class="flex items-center gap-1 text-[10px] font-medium text-slate-600">
+<span class="material-symbols-outlined text-sm">groups</span> 32 solītāji
+                        </div>
+<button class="bg-primary hover:bg-red-700 text-white text-xs font-bold px-6 py-2 rounded transition-colors shadow-lg shadow-red-900/10">
+                            Solīt
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl overflow-hidden card-shadow border border-slate-100 group">
+<div class="relative h-48 overflow-hidden">
+<img alt="Commercial Vessel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfjFPBMjXXBCva5ckY7SjrkX1sHngpCbDfPCrdFQtrUVwSMY_7DdAU_IqnE-gSe0TErJf46Zn3kd-g1deF7JcNMhQp7qIvKpmTNshVbuoHemFTN54EaodYgVCNcOkjZbYUmr3QToR9S_iR_FY570UCWwlpkQhrHI9WJaGIq9JEacZcjCv1pU4BdhMD9Xbh4pqarziuu9l2qXQS7gR7iX-uDSoQ7-nmmh3M94sERtIUKFh-wHrVXYykkAbAUMGY6RMrVVp2hjUKhU"/>
+<div class="absolute top-3 left-3 bg-slate-100 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 shadow-sm text-slate-800">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span> DRĪZ SĀKSIES
+                    </div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-sm mb-1 truncate">Kravas kuteris "Venta-2"</h3>
+<p class="text-[10px] text-slate-500 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">directions_boat</span> Ventspils Osta
+                    </p>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Sākuma cena</p>
+<p class="text-lg font-black text-primary">€ 12,000</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-slate-500 uppercase font-semibold">Sākas pēc</p>
+<p class="text-sm font-bold flex items-center justify-end gap-1 text-slate-800">
+<span class="material-symbols-outlined text-sm text-primary">event</span> 1d 08h
+                            </p>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-t border-slate-100">
+<div class="flex items-center gap-1 text-[10px] font-medium text-slate-600">
+<span class="material-symbols-outlined text-sm">notifications</span> 45 gaida
+                        </div>
+<button class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-6 py-2 rounded transition-colors">
+                            Atgādināt
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="mt-24 bg-slate-100 py-16 border-t border-slate-200">
+<div class="max-w-[1440px] mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-white text-2xl">account_balance</span>
+</div>
+<div class="leading-none">
+<span class="block font-bold text-xl tracking-tighter uppercase">Latvijas</span>
+<span class="block font-light text-sm tracking-widest uppercase">Izsole</span>
+</div>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed">
+                    Vadošais izsoļu nams Baltijā. Droša un caurspīdīga vide automašīnu, nekustamo īpašumu un speciālās tehnikas iegādei.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 uppercase tracking-wider">Izsoles</h4>
+<ul class="space-y-4 text-sm text-slate-600">
+<li><a class="hover:text-primary transition-colors" href="#">Automašīnas</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Nekustamais īpašums</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Prestižie numuri</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Tehnika</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 uppercase tracking-wider">Atbalsts</h4>
+<ul class="space-y-4 text-sm text-slate-600">
+<li><a class="hover:text-primary transition-colors" href="#">Kā solīt?</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Biežāk uzdotie jautājumi</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Lietošanas noteikumi</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Kontakti</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 uppercase tracking-wider">Sekojiet mums</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">alternate_email</span>
+</a>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-xs text-slate-500">
+                © 2024 Latvijas Izsole. Reģ. Nr. 40003000001. Visas tiesības aizsargātas.
+            </div>
+<div class="flex gap-6">
+<img alt="Visa Mastercard" class="h-6 opacity-50 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlUWnNsAzWsvrBuLYbelhyNA82nhOzuC9j6ZDa1CSprnc-0ytbSugGxQZkkTdgKMSOQzcuSwhbaVKWZaiEpFc6aIr8QeKLCW4M_MyXvfvHVRUI0za7OqzZXgdSzSjoB2Q1xvXHNtA70PdA3jDynB8_BH_5KRhNDGK9F4M82rUtQSU8aisbUJLvYO4yTj5obPbFEhta3JI-dmsAavwK9mfxvzf8W_mVutmzDvaD0rNmzaUIWrR8ntHrLbJO9dOTE-6pCuuySLp6lzw"/>
+</div>
+<div class="flex gap-4 text-xs">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">Privātuma politika</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">Sīkdatņu iestatījumi</a>
+</div>
+</div>
+</div>
+</footer>
+
+</body></html>

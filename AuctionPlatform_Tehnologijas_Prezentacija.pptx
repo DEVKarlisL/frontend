@@ -1,0 +1,37 @@
+Izsoļu platforma: Tehnoloģiju izvēle un kursa zināšanu pielietojums
+
+1. slaids: Nosaukums
+- Izsoļu platforma: Tehnoloģiju izvēle un kursa zināšanu pielietojums
+- Vārds: [Jūsu vārds]
+- Datums: 2026. gada 28. februāris
+
+2. slaids: Izmantotās tehnoloģijas
+- Frontends: React, TypeScript, Vite, Tailwind CSS
+- Backends: Django, Python, Django REST Framework
+- Datu bāze: SQLite (izstrādes vidē)
+- Citi: Docker, Nginx, Axios, Zustand, React Query
+
+3. slaids: Kursa zināšanu pielietojums
+- REST API izveide ar Django
+- Interaktīvu lietotāju saskarņu veidošana ar React un TypeScript
+- Stāvokļa pārvaldība ar Zustand un React Query
+- Stila veidošana ar Tailwind CSS
+
+4. slaids: Piemērs 1 – API integrācija
+- Kā iegūstu izsoļu datus no Django backend ar Axios React vidē
+- Koda piemērs:
+  axios.get('/api/auctions/')
+    .then(response => setAuctions(response.data));
+
+5. slaids: Piemērs 2 – Autentifikācija
+- Lietotāja pieslēgšanās plūsma ar Django backend un React frontend
+- Aizsargāto maršrutu piemērs React:
+  <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+6. slaids: Piemērs 3 – Docker un izvietošana
+- Docker un Nginx izmantošana izvietošanai
+- Priekšrocības: mērogojamība, vienkārša uzstādīšana
+
+7. slaids: Secinājumi
+- Tehnoloģijas un prasmes sagatavo reālai tīmekļa izstrādei
+- Nākotnes plāni: platformas uzlabošana, jaunu funkciju pievienošana
